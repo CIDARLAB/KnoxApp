@@ -1,0 +1,6 @@
+[submodule "knox"]
+	path = knox
+	url = https://github.com/CIDARLAB/knox
+[submodule "knoxAI"]
+	path = knoxAI
+	url = https://github.com/CIDARLAB/knoxAI
