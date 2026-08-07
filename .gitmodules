@@ -4,3 +4,6 @@
 [submodule "knoxAI"]
 	path = knoxAI
 	url = https://github.com/CIDARLAB/knoxAI
+[submodule "ctRSD-simulator-API"]
+	path = ctRSD-simulator-API
+	url = https://github.com/CIDARLAB/ctRSD-simulator-API
