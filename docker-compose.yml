@@ -1,0 +1,86 @@
+services:
+  neo4j:
+    image: neo4j:2025.07.1
+    container_name: neo4j
+    ports:
+      - "127.0.0.1:7474:7474"  # Localhost only
+      - "127.0.0.1:7687:7687"  # Localhost only
+    environment:
+      NEO4J_AUTH: neo4j/kn0xkn0x
+    volumes:
+      - neo4j_data:/data
+    healthcheck:
+      test: ["CMD", "cypher-shell", "-u", "neo4j", "-p", "kn0xkn0x", "RETURN 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - knox
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:latest
+    container_name: mlflow
+    command: >
+      mlflow server
+      --backend-store-uri sqlite:///mlflow/mlflow.db
+      --default-artifact-root /mlflow/artifacts
+      --host 0.0.0.0
+      --port 5000
+    ports:
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - mlflow_data:/mlflow
+    networks:
+      - knox
+
+
+  knox:
+    build: ./knox
+    container_name: knox
+    depends_on:
+      neo4j:
+        condition: service_healthy
+    environment:
+      SPRING_NEO4J_URI: bolt://neo4j:7687
+      SPRING_NEO4J_AUTHENTICATION_USERNAME: neo4j
+      SPRING_NEO4J_AUTHENTICATION_PASSWORD: kn0xkn0x
+
+      KNOX_AI_URL: http://knoxai:8000
+      SEQ_COMPILER_URL: http://seq-compiler:8010
+      MLFLOW_URL: http://mlflow:5000
+
+      # Spring AI / LLM Keys
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-disabled}
+      CLAUDE_API_KEY: ${CLAUDE_API_KEY:-disabled}
+      
+    ports:
+      - "127.0.0.1:8080:8080"  # Localhost only
+    networks:
+      - knox
+
+  knoxai:
+    build: ./knoxai
+    container_name: knoxai
+    depends_on:
+      - mlflow
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
+    ports:
+      - "127.0.0.1:8000:8000"  # Localhost only
+    networks:
+      - knox
+
+  seq-compiler:
+    build: ./ctRSD-simulator-API
+    container_name: seq-compiler
+    ports:
+      - "127.0.0.1:8010:8010"  # Localhost only
+    networks:
+      - knox
+
+volumes:
+  neo4j_data:
+  mlflow_data:
+
+networks:
+  knox:
