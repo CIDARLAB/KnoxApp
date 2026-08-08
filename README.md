@@ -1,4 +1,8 @@
-# KnoxApp
+<p align="center">
+  <img src="images/KnoxV1.jpg" alt="Logo" width="600"/>
+</p>
+
+# KnoxApp - An AI-Powered tool for Genetic Circuit Generation and Prediction
 
 ## Quickstart
 
