@@ -26,13 +26,13 @@ services:
       --default-artifact-root /mlflow/artifacts
       --host 0.0.0.0
       --port 5000
+      --allowed-hosts "mlflow:5000,localhost:5000,127.0.0.1:5000"
     ports:
       - "127.0.0.1:5000:5000"
     volumes:
       - mlflow_data:/mlflow
     networks:
       - knox
-
 
   knox:
     build: ./knox
@@ -65,6 +65,7 @@ services:
       - mlflow
     environment:
       MLFLOW_TRACKING_URI: http://mlflow:5000
+      GIT_PYTHON_REFRESH: quiet
     ports:
       - "127.0.0.1:8000:8000"  # Localhost only
     networks:
