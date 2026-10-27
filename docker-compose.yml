@@ -48,6 +48,7 @@ services:
       KNOX_AI_URL: http://knoxai:8000
       SEQ_COMPILER_URL: http://seq-compiler:8010
       MLFLOW_URL: http://mlflow:5000
+      KNOX_SBOL_URL: http://knox-sbol:8020
 
       # Spring AI / LLM Keys
       OPENAI_API_KEY: ${OPENAI_API_KEY:-disabled}
@@ -68,6 +69,14 @@ services:
       GIT_PYTHON_REFRESH: quiet
     ports:
       - "127.0.0.1:8000:8000"  # Localhost only
+    networks:
+      - knox
+
+  knox-sbol:
+    build: ./knoxSBOL
+    container_name: knox-sbol
+    ports:
+      - "127.0.0.1:8020:8020"  # Localhost only
     networks:
       - knox
 

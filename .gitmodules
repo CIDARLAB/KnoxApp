@@ -7,3 +7,6 @@
 [submodule "ctRSD-simulator-API"]
 	path = ctRSD-simulator-API
 	url = https://github.com/CIDARLAB/ctRSD-simulator-API
+[submodule "knoxSBOL"]
+	path = knoxSBOL
+	url = https://github.com/CIDARLAB/knoxSBOL

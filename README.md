@@ -14,7 +14,8 @@
 5) Open Neo4j web interface at http://localhost:7474
 6) Open MLflow web interface at http://localhost:5000
 7) Open KnoxAI FASTAPI Docs at http://localhost:8000/docs
-8) Open ctRSD-simulator-API FASTAPI Docs at http://localhost:8010/docs
+8) Open KnoxSBOL FASTAPI Docs at http://localhost:8020/docs
+9) Open ctRSD-simulator-API FASTAPI Docs at http://localhost:8010/docs
 
 ## AI Chat / Agent Integration
 
